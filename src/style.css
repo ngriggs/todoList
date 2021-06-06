@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+}
+.navMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10em;
+    height: 100%;
+    background-color: honeydew;
+}
+.navMenu h3 {
+    margin: 1em 1em;
+}
+.container {
+    margin-left: 11em;
+}
