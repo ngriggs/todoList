@@ -17,6 +17,8 @@ body {
 .navMenu h3 {
     margin: 1em 1em;
 }
+.navMenu ul {
+    padding-inline-start: 10px;}
 .container {
     margin-left: 11em;
 }
