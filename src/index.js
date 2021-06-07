@@ -10,9 +10,20 @@ const createMenu = () => {
     const header = document.createElement('div')
     const createButton = document.createElement('button')
     header.innerHTML = '<h3>Projects</h3>'
-    createButton.innerHTML = '<h4>New Project</h4>'
+    createButton.innerHTML = '<h4>New Task</h4>'
     createButton.addEventListener('click', () => {
-        createButton.appendChild(createProject())
+        document.body.appendChild(createProject())
+        const modal = document.getElementById("myModal");
+        modal.style.display = 'block'
+        const spanElement = document.querySelector('.close')
+        spanElement.addEventListener('click', () => {
+            modal.style.display = 'none'
+        })
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none'
+            }
+        }
     })
     element.setAttribute('class', 'navMenu')
     header.appendChild(createButton)
@@ -22,15 +33,41 @@ const createMenu = () => {
 
 const createProject = () => {
     const element = document.createElement('div')
-    const newProjectForm = document.createElement('input')
-    const addButton = document.createElement('button')
-    const cancelButton = document.createElement('button')
-    addButton.innerText = 'Add'
-    cancelButton.innerText = 'Cancel'
-    newProjectForm.setAttribute('input', 'text')
-    element.appendChild(newProjectForm)
-    element.appendChild(addButton)
-    element.appendChild(cancelButton)
+    element.setAttribute('id', 'myModal')
+    element.setAttribute('class', 'modal')
+    const modalElement = document.createElement('div')
+    modalElement.setAttribute('class', 'modal-content')
+    const spanElement = document.createElement('span')
+    spanElement.setAttribute('class', 'close')
+    spanElement.innerText = 'Close'
+    const paragraphElement = document.createElement('p')
+    paragraphElement.innerText = 'some text here!'
+    const inputElement = document.createElement('input')
+    const addTaskButton = document.createElement('button')
+    addTaskButton.innerText = 'Add Task'
+    addTaskButton.addEventListener('click', () => {
+        const projectsList = document.querySelector('.contentDiv')
+        const modal = document.getElementById("myModal");
+        projectsList.appendChild(todoList(inputElement.value))
+        modal.style.display = 'none'
+    })
+    addTaskButton.addEventListener('keyup', (event) => {
+        const projectsList = document.querySelector('.contentDiv')
+        const modal = document.getElementById("myModal");
+        console.log(event.code)
+        if (event.code === 'Enter') {
+            projectsList.appendChild(todoList(inputElement.value))
+            modal.style.display = 'none'
+        }
+
+
+    })
+
+    modalElement.appendChild(addTaskButton)
+    modalElement.appendChild(inputElement)
+    modalElement.appendChild(spanElement)
+    modalElement.appendChild(paragraphElement)
+    element.appendChild(modalElement)
     return element
 }
 
@@ -83,7 +120,26 @@ newButton3.addEventListener('click', () => {
     const projectsList = document.querySelector('.projects')
     projectsList.appendChild(todoList('some text here!'))
 })
+const displayProjectTaskList = () => {
+    const containerDiv = document.createElement('div')
+    const headerDiv = document.createElement('div')
+    const contentDiv = document.createElement('div')
+    contentDiv.setAttribute('class', 'contentDiv')
+    for (i = 0; i < 5; i++) {
+        let temp = document.createElement('ul')
+        temp.innerText = 'hi'
+        contentDiv.appendChild(temp)
+    }
+    headerDiv.innerHTML = '<h3>Personal</h3>'
 
+    containerDiv.appendChild(headerDiv)
+    containerDiv.appendChild(contentDiv)
+    return containerDiv
+}
 container.appendChild(newButton)
 container.appendChild(newButton2)
 container.appendChild(newButton3)
+container.appendChild(displayProjectTaskList())
+
+
+
