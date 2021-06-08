@@ -1,3 +1,4 @@
+import {Task, List} from './index'
 const createMenu = () => {
     const element = document.createElement('nav')
     const header = document.createElement('div')
@@ -79,15 +80,17 @@ const newTaskModal = () => {
     addTaskButton.innerText = 'Add Task'
     addTaskButton.addEventListener('click', () => {
         const projectsList = document.querySelector('.contentDiv')
-        const modal = document.getElementById("myModal");
         projectsList.appendChild(addTask(inputElement.value))
+        let thisList = projectsList.parentNode.firstChild.innerText
+        console.log(thisList)
+        let newTask = new Task(inputElement.value)
         removeModal()
     })
     modalElement.addEventListener('keyup', (event) => {
         const projectsList = document.querySelector('.contentDiv')
-        const modal = document.getElementById("myModal");
         if (event.code === 'Enter') {
             projectsList.appendChild(addTask(inputElement.value))
+            new Task(inputElement.value)
             removeModal()
         }
     })
@@ -123,6 +126,7 @@ const newListModal = () => {
         const projectsList = document.querySelector('.lists')
         const modal = document.getElementById("myModal");
         projectsList.appendChild(addList(inputElement.value))
+        new List(inputElement.value, [])
         removeModal()
     })
     modalElement.addEventListener('keyup', (event) => {
@@ -130,6 +134,7 @@ const newListModal = () => {
         const modal = document.getElementById("myModal");
         if (event.code === 'Enter') {
             projectsList.appendChild(addList(inputElement.value))
+            new List(inputElement.value, [])
             removeModal()
         }
     })
@@ -153,12 +158,12 @@ const renderList = (list) => {
     const headerDiv = document.createElement('div')
     const contentDiv = document.createElement('div')
     contentDiv.setAttribute('class', 'contentDiv')
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < list.renderTasks().length; i++) {
         let temp = document.createElement('ul')
-        temp.innerText = 'hi'
+        temp.innerText = list.renderTasks()[i].title
         contentDiv.appendChild(temp)
     }
-    headerDiv.innerHTML = '<h3>'+ list +'</h3>'
+    headerDiv.innerHTML = '<h3>'+ list.title +'</h3>'
 
     containerDiv.appendChild(headerDiv)
     containerDiv.appendChild(contentDiv)

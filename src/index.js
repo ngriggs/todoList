@@ -1,6 +1,6 @@
 import {createMenu, createContainer, renderList} from './view'
 
-class List {
+export class List {
     constructor(title, tasks) {
         this.title = title
         this.tasks = tasks
@@ -16,7 +16,7 @@ class List {
     }
 }
 
-class Task {
+export class Task {
     constructor(title, description, dueDate, priority, notes, done) {
         this.title = title
         this.description = description
@@ -30,8 +30,14 @@ class Task {
 document.body.appendChild(createMenu())
 document.body.appendChild(createContainer())
 const container = document.querySelector('.container')
-container.appendChild(renderList('Personal'))
 
 
+let list = []
+let newTask = new Task('title', 'description')
+let newTask2 = new Task('title', 'description')
+list.push(newTask)
+list.push(newTask2)
+let newList = new List('personal', list)
 
+container.appendChild(renderList(newList))
 
