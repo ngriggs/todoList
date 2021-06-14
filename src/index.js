@@ -1,6 +1,6 @@
-import {createMenu, createContainer, renderList} from './view'
+import {createMenu, createContainer, renderList, addTask, addList, removeModal} from './view'
 
-export class List {
+class List {
     constructor(title, tasks) {
         this.title = title
         this.tasks = tasks
@@ -16,7 +16,7 @@ export class List {
     }
 }
 
-export class Task {
+class Task {
     constructor(title, description, dueDate, priority, notes, done) {
         this.title = title
         this.description = description
@@ -25,6 +25,85 @@ export class Task {
         this.notes = notes
         this.done = done
     }
+}
+
+const newTaskModal = () => {
+    const element = document.createElement('div')
+    element.setAttribute('id', 'myModal')
+    element.setAttribute('class', 'modal')
+    const modalElement = document.createElement('div')
+    modalElement.setAttribute('class', 'modal-content')
+    const spanElement = document.createElement('span')
+    spanElement.setAttribute('class', 'close')
+    spanElement.innerText = 'Close'
+    const paragraphElement = document.createElement('p')
+    paragraphElement.innerText = 'This is a new task'
+    const inputElement = document.createElement('input')
+    const addTaskButton = document.createElement('button')
+    addTaskButton.innerText = 'Add Task'
+    addTaskButton.addEventListener('click', () => {
+        const projectsList = document.querySelector('.contentDiv')
+        projectsList.appendChild(addTask(inputElement.value))
+        let thisList = projectsList.parentNode.firstChild.innerText
+        let newTask = new Task(inputElement.value)
+        newList.addTask(newTask)
+        console.log(newList)
+        removeModal()
+    })
+    modalElement.addEventListener('keyup', (event) => {
+        const projectsList = document.querySelector('.contentDiv')
+        if (event.code === 'Enter') {
+            projectsList.appendChild(addTask(inputElement.value))
+            let thisList = projectsList.parentNode.firstChild.innerText
+            let newTask = new Task(inputElement.value)
+            newList.addTask(newTask)
+            console.log(newList)
+            removeModal()
+        }
+    })
+    modalElement.appendChild(addTaskButton)
+    modalElement.appendChild(inputElement)
+    modalElement.appendChild(spanElement)
+    modalElement.appendChild(paragraphElement)
+    element.appendChild(modalElement)
+    return element
+}
+const newListModal = () => {
+    const element = document.createElement('div')
+    element.setAttribute('id', 'myModal')
+    element.setAttribute('class', 'modal')
+    const modalElement = document.createElement('div')
+    modalElement.setAttribute('class', 'modal-content')
+    const spanElement = document.createElement('span')
+    spanElement.setAttribute('class', 'close')
+    spanElement.innerText = 'Close'
+    const paragraphElement = document.createElement('p')
+    paragraphElement.innerText = 'This is a new List'
+    const inputElement = document.createElement('input')
+    const addTaskButton = document.createElement('button')
+    addTaskButton.innerText = 'Add Task'
+    addTaskButton.addEventListener('click', () => {
+        const projectsList = document.querySelector('.lists')
+        const modal = document.getElementById("myModal");
+        projectsList.appendChild(addList(inputElement.value))
+        new List(inputElement.value, [])
+        removeModal()
+    })
+    modalElement.addEventListener('keyup', (event) => {
+        const projectsList = document.querySelector('.lists')
+        const modal = document.getElementById("myModal");
+        if (event.code === 'Enter') {
+            projectsList.appendChild(addList(inputElement.value))
+            new List(inputElement.value, [])
+            removeModal()
+        }
+    })
+    modalElement.appendChild(addTaskButton)
+    modalElement.appendChild(inputElement)
+    modalElement.appendChild(spanElement)
+    modalElement.appendChild(paragraphElement)
+    element.appendChild(modalElement)
+    return element
 }
 
 document.body.appendChild(createMenu())
@@ -41,3 +120,9 @@ let newList = new List('personal', list)
 
 container.appendChild(renderList(newList))
 
+
+
+export {
+    newTaskModal,
+    newListModal
+}

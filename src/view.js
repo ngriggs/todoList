@@ -1,4 +1,5 @@
-import {Task, List} from './index'
+import {newTaskModal, newListModal} from './index.js'
+
 const createMenu = () => {
     const element = document.createElement('nav')
     const header = document.createElement('div')
@@ -64,85 +65,10 @@ const removeModal = () => {
     node.remove()
 }
 
-const newTaskModal = () => {
-    const element = document.createElement('div')
-    element.setAttribute('id', 'myModal')
-    element.setAttribute('class', 'modal')
-    const modalElement = document.createElement('div')
-    modalElement.setAttribute('class', 'modal-content')
-    const spanElement = document.createElement('span')
-    spanElement.setAttribute('class', 'close')
-    spanElement.innerText = 'Close'
-    const paragraphElement = document.createElement('p')
-    paragraphElement.innerText = 'This is a new task'
-    const inputElement = document.createElement('input')
-    const addTaskButton = document.createElement('button')
-    addTaskButton.innerText = 'Add Task'
-    addTaskButton.addEventListener('click', () => {
-        const projectsList = document.querySelector('.contentDiv')
-        projectsList.appendChild(addTask(inputElement.value))
-        let thisList = projectsList.parentNode.firstChild.innerText
-        console.log(thisList)
-        let newTask = new Task(inputElement.value)
-        removeModal()
-    })
-    modalElement.addEventListener('keyup', (event) => {
-        const projectsList = document.querySelector('.contentDiv')
-        if (event.code === 'Enter') {
-            projectsList.appendChild(addTask(inputElement.value))
-            new Task(inputElement.value)
-            removeModal()
-        }
-    })
-    modalElement.appendChild(addTaskButton)
-    modalElement.appendChild(inputElement)
-    modalElement.appendChild(spanElement)
-    modalElement.appendChild(paragraphElement)
-    element.appendChild(modalElement)
-    return element
-}
 const addTask = (task) => {
     const element = document.createElement('ul')
     element.setAttribute('class', 'todoList')
     element.innerText = task
-    return element
-}
-
-const newListModal = () => {
-    const element = document.createElement('div')
-    element.setAttribute('id', 'myModal')
-    element.setAttribute('class', 'modal')
-    const modalElement = document.createElement('div')
-    modalElement.setAttribute('class', 'modal-content')
-    const spanElement = document.createElement('span')
-    spanElement.setAttribute('class', 'close')
-    spanElement.innerText = 'Close'
-    const paragraphElement = document.createElement('p')
-    paragraphElement.innerText = 'This is a new List'
-    const inputElement = document.createElement('input')
-    const addTaskButton = document.createElement('button')
-    addTaskButton.innerText = 'Add Task'
-    addTaskButton.addEventListener('click', () => {
-        const projectsList = document.querySelector('.lists')
-        const modal = document.getElementById("myModal");
-        projectsList.appendChild(addList(inputElement.value))
-        new List(inputElement.value, [])
-        removeModal()
-    })
-    modalElement.addEventListener('keyup', (event) => {
-        const projectsList = document.querySelector('.lists')
-        const modal = document.getElementById("myModal");
-        if (event.code === 'Enter') {
-            projectsList.appendChild(addList(inputElement.value))
-            new List(inputElement.value, [])
-            removeModal()
-        }
-    })
-    modalElement.appendChild(addTaskButton)
-    modalElement.appendChild(inputElement)
-    modalElement.appendChild(spanElement)
-    modalElement.appendChild(paragraphElement)
-    element.appendChild(modalElement)
     return element
 }
 
@@ -173,5 +99,8 @@ const renderList = (list) => {
 export {
     createMenu,
     createContainer,
-    renderList
+    renderList,
+    addTask,
+    addList,
+    removeModal
 }
