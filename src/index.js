@@ -12,7 +12,10 @@ class List {
 
     renderTasks = () => {
         return this.tasks
-        
+    }
+
+    getList = () => {
+        return this
     }
 }
 
@@ -46,6 +49,7 @@ const newTaskModal = () => {
         projectsList.appendChild(addTask(inputElement.value))
         let thisList = projectsList.parentNode.firstChild.innerText
         let newTask = new Task(inputElement.value)
+        console.log(thisList)
         newList.addTask(newTask)
         console.log(newList)
         removeModal()
