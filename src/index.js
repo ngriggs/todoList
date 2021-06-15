@@ -1,14 +1,14 @@
-import {createMenu, createContainer, renderList, addTask, addList, removeModal, clearList} from './view'
+import {createMenu, createContainer, renderList, addTask, addList, removeModal, clearList} from './view';
 
 class List {
     constructor(title, tasks) {
-        this.title = title
-        this.tasks = tasks
-    }
+        this.title = title;
+        this.tasks = tasks;
+    };
 
     addTask = (task) => {
-        this.tasks.push(task)
-    }
+        this.tasks.push(task);
+    };
 
     renderTasks = () => {
         return this.tasks
