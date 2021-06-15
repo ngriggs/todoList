@@ -1,4 +1,4 @@
-import {createMenu, createContainer, renderList, addTask, addList, removeModal} from './view'
+import {createMenu, createContainer, renderList, addTask, addList, removeModal, clearList} from './view'
 
 class List {
     constructor(title, tasks) {
@@ -81,20 +81,31 @@ const newListModal = () => {
     paragraphElement.innerText = 'This is a new List'
     const inputElement = document.createElement('input')
     const addTaskButton = document.createElement('button')
-    addTaskButton.innerText = 'Add Task'
+    addTaskButton.innerText = 'Add List'
     addTaskButton.addEventListener('click', () => {
+        let newListObj = new List(inputElement.value, [])
         const projectsList = document.querySelector('.lists')
-        const modal = document.getElementById("myModal");
-        projectsList.appendChild(addList(inputElement.value))
-        new List(inputElement.value, [])
+        const newList = addList(inputElement.value)
+        newList.addEventListener('click', () => {
+            clearList()
+            console.log(newListObj.renderTasks())
+            container.appendChild(renderList(newListObj))
+        })
+        projectsList.appendChild(newList)
         removeModal()
     })
     modalElement.addEventListener('keyup', (event) => {
+        let newListObj = new List(inputElement.value, [])
         const projectsList = document.querySelector('.lists')
-        const modal = document.getElementById("myModal");
+        const newList = addList(inputElement.value)
+        newList.addEventListener('click', () => {
+            clearList()
+            let container = document.querySelector('.container')
+            console.log(newListObj.renderTasks())
+            container.appendChild(renderList(newListObj))
+        })
         if (event.code === 'Enter') {
-            projectsList.appendChild(addList(inputElement.value))
-            new List(inputElement.value, [])
+            projectsList.appendChild(newList)
             removeModal()
         }
     })

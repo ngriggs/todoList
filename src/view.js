@@ -83,7 +83,9 @@ const renderList = (list) => {
     const containerDiv = document.createElement('div')
     const headerDiv = document.createElement('div')
     const contentDiv = document.createElement('div')
+    containerDiv.setAttribute('class', 'containerDiv')
     contentDiv.setAttribute('class', 'contentDiv')
+
     for (let i = 0; i < list.renderTasks().length; i++) {
         let temp = document.createElement('ul')
         temp.innerText = list.renderTasks()[i].title
@@ -96,11 +98,18 @@ const renderList = (list) => {
     return containerDiv
 }
 
+const clearList = () => {
+    let existingData = document.querySelector('.containerDiv');
+    existingData.querySelectorAll('*').forEach(n => n.remove());
+    existingData.remove()
+}
+
 export {
     createMenu,
     createContainer,
     renderList,
     addTask,
     addList,
-    removeModal
+    removeModal,
+    clearList
 }
