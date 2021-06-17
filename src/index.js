@@ -48,10 +48,9 @@ const newTaskModal = () => {
         const projectsList = document.querySelector('.contentDiv')
         projectsList.appendChild(addTask(inputElement.value))
         let thisList = projectsList.parentNode.firstChild.innerText
+        const test = myStorage.getItem(thisList)
+        console.log(test)
         let newTask = new Task(inputElement.value)
-        console.log(thisList)
-        newList.addTask(newTask)
-        console.log(newList)
         removeModal()
     })
     modalElement.addEventListener('keyup', (event) => {
@@ -60,8 +59,9 @@ const newTaskModal = () => {
             projectsList.appendChild(addTask(inputElement.value))
             let thisList = projectsList.parentNode.firstChild.innerText
             let newTask = new Task(inputElement.value)
-            newList.addTask(newTask)
-            console.log(newList)
+            let test = JSON.parse(myStorage.getItem(thisList))
+            test.tasks.push(newTask)
+            console.log(test)
             removeModal()
         }
     })
@@ -84,42 +84,54 @@ const newListModal = () => {
     const paragraphElement = document.createElement('p')
     paragraphElement.innerText = 'This is a new List'
     const inputElement = document.createElement('input')
-    const addTaskButton = document.createElement('button')
-    addTaskButton.innerText = 'Add List'
-    addTaskButton.addEventListener('click', () => {
+    const addListButton = document.createElement('button')
+    addListButton.innerText = 'Add List'
+    addListButton.addEventListener('click', () => {
         let newListObj = new List(inputElement.value, [])
+        let stringifiedNewListObj = JSON.stringify(newListObj)
         const projectsList = document.querySelector('.lists')
         const newList = addList(inputElement.value)
+        projectsList.appendChild(newList)
+        myStorage.setItem(inputElement.value, stringifiedNewListObj)
+        console.log(JSON.parse(myStorage.getItem(inputElement.value)) + 'my storage')
         newList.addEventListener('click', () => {
             clearList()
-            console.log(newListObj.renderTasks())
+            let container = document.querySelector('.container')
             container.appendChild(renderList(newListObj))
+            let test = document.querySelector('.containerDiv')
+            let test2 = myStorage.getItem(test.innerText)
+            console.log(test2)
         })
-        projectsList.appendChild(newList)
+        
         removeModal()
     })
     modalElement.addEventListener('keyup', (event) => {
         let newListObj = new List(inputElement.value, [])
+        let stringifiedNewListObj = JSON.stringify(newListObj)
         const projectsList = document.querySelector('.lists')
         const newList = addList(inputElement.value)
         newList.addEventListener('click', () => {
             clearList()
-            let container = document.querySelector('.container')
+            console.log(JSON.parse(stringifiedNewListObj))
             console.log(newListObj.renderTasks())
+            let container = document.querySelector('.container')
             container.appendChild(renderList(newListObj))
         })
         if (event.code === 'Enter') {
             projectsList.appendChild(newList)
+            myStorage.setItem(inputElement.value, stringifiedNewListObj)
             removeModal()
         }
     })
-    modalElement.appendChild(addTaskButton)
+    modalElement.appendChild(addListButton)
     modalElement.appendChild(inputElement)
     modalElement.appendChild(spanElement)
     modalElement.appendChild(paragraphElement)
     element.appendChild(modalElement)
     return element
 }
+
+
 
 document.body.appendChild(createMenu())
 document.body.appendChild(createContainer())
@@ -134,6 +146,7 @@ list.push(newTask2)
 let newList = new List('personal', list)
 
 container.appendChild(renderList(newList))
+const myStorage = window.localStorage
 
 
 
